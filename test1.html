@@ -54,8 +54,18 @@
     const reader = new FileReader();
     reader.addEventListener('load', (event) => {
       var img = new Image();
+      img.onload = function(){
+        console.log('img', img);
+        console.log('img.widt', img.width);
+        console.log(' img.height',  img.height);
+        $("#resizable").innerWidth(img.width);
+        $("#resizable").innerHeight(img.height);
+        $("#resizable").css("background-image", "url('" + img.src + "')");
+      };
+
       img.src = event.target.result;
-      $("#resizable").css("background-image", "url('" + img.src + "')");
+
+
       // img1.src = event.target.result;
       console.log('load', event);
     });
