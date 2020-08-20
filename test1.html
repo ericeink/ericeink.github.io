@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>jQuery UI Resizable - Default functionality</title>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="https://code.jquery.com/resources/demos/style.css">
   <style>
-  #resizable { width: 150px; height: 150px; padding: 0.5em; }
+  #resizable { width: 250px; height: 150px; padding: 0.5em; }
   #resizable h3 { text-align: center; margin: 0; }
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -19,11 +18,46 @@
   </script>
 </head>
 <body>
- 
-<div id="resizable" class="ui-widget-content" style="background-color:yellow">
-  <h3 class="ui-widget-header">Region</h3>
-</div>
- 
- 
+<table border="1" width="100%" height="600px">
+  <tr>
+    <td align="left" valign="top" width="20%">
+      <input type="file" id="file-selector" accept=".jpg, .jpeg, .png">
+    </td>
+    <td align="left" valign="top">
+      <div id="resizable" class="ui-widget-content" style="background-color:lightslategrey">
+        <h3 class="ui-widget-header">Region</h3>
+        <img id="img1">
+      </div>
+    </td>
+  </tr>
+</table>
+
+<script>
+  const fileSelector = document.getElementById('file-selector');
+  const img1 = document.getElementById('img1');
+  fileSelector.addEventListener('change', (event) => {
+    const fileList = event.target.files;
+    console.log(fileList);
+    readImage(fileList[0])
+  });
+
+  function readImage(file) {
+    // Check if the file is an image.
+    if (file.type && file.type.indexOf('image') === -1) {
+      console.log('File is not an image.', file.type, file);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+      var img = new Image();
+      img.src = event.target.result;
+      $("#resizable").css("background-image", "url('" + img.src + "')");
+      // img1.src = event.target.result;
+      console.log('load', event);
+    });
+    reader.readAsDataURL(file);
+  }
+</script>
 </body>
 </html>
